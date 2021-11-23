@@ -1,0 +1,4 @@
+/** * Padding for the body (to accomodate the fixed nav-bar). */
+body {
+    padding-top: 5rem;
+}
