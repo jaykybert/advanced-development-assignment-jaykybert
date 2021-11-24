@@ -12,11 +12,53 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"/>
 
     <!-- Custom Styling -->
-    <link href="static/css/styles.css" rel="stylesheet"/>
-
+    <link href="../static/css/styles.css" rel="stylesheet"/>
 </head>
 
+
+
 <body>
+    <!-- Navigation Control -->
+    <div>
+        <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+            <!-- Logo -->
+            <a href="{{ url_for('home') }}" class="navbar-brand">
+                <img src="../static/assets/nav_icon.jpg" alt="Company Logo" width="50" height="50"/>
+                Parcel Tracker
+            </a>
+
+            <!-- Mobile Support -->
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#toggleNavMenu"
+                aria-controls="toggleNavMenu"
+                aria-expanded="false"
+                aria-label="Toggle Navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div id="toggleNavMenu" class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto text-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container">
+        <!-- Page-specific Content -->
+        <main role="main" class="container">
+            {% block content %}
+            {% endblock content %}
+        </main>
+    </div>
 
     <!-- Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
