@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="starter-template">
+        <h1>Register</h1>
+        <p class="lead">Please enter your information.</p>
+    </div>
+
+    <div id="registration_form">
+        <form method="post" action="{{ url_for('register_complete') }}">
+            <label for="name">Name:</label>
+            <input id="name" type="text" name="name">
+            <br />
+            <label for="email">Email:</label>
+            <input id="email" type="email" name="email">
+            <br />
+        </form>
+    </div>
+
+
+{% endblock content %}
