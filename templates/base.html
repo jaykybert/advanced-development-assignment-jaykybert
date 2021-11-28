@@ -13,8 +13,10 @@
 
     <!-- Custom Styling -->
     <link href="../static/css/styles.css" rel="stylesheet"/>
-</head>
 
+    {% block head %}
+    {% endblock head %}
+</head>
 
 
 <body>
@@ -66,5 +68,8 @@
     </script>
 
 </body>
+
+{% block end %}
+{% endblock end %}
 
 </html>

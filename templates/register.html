@@ -1,21 +1,27 @@
 {% extends 'base.html' %}
 
+
+{% block head %}
+ <script src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css">
+
+  <script src="../static/scripts/firebaseAuth.js"></script>
+{% endblock head %}
+
+
 {% block content %}
-    <div class="starter-template">
-        <h1>Register</h1>
-        <p class="lead">Please enter your information.</p>
-    </div>
+    <h1>Datastore and Firebase Auth Example</h1>
 
-    <div id="registration_form">
-        <form method="post" action="{{ url_for('register_complete') }}">
-            <label for="name">Name:</label>
-            <input id="name" type="text" name="name">
-            <br />
-            <label for="email">Email:</label>
-            <input id="email" type="email" name="email">
-            <br />
-        </form>
-    </div>
+    <div id="firebaseui-auth-container"></div>
 
-
+    <button id="sign-out" hidden=true>Sign Out</button>
 {% endblock content %}
+
+
+{% block end %}
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-analytics.js"></script>
+    <script src="../static/scripts/firebaseConfig.js">
+    </script>
+{% endblock end %}
