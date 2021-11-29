@@ -1,4 +1,15 @@
-/** * Padding for the body (to accmodate the fixed nav-bar). */
+
 body {
     padding-top: 5rem;
 }
+
+.centered {
+    margin: auto;
+}
+
+.login-container {
+    border: 2px solid black;
+    width: 25%;
+    background-color: #292b2c
+}
+

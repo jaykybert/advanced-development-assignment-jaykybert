@@ -35,19 +35,11 @@ def home():
 def about():
     return render_template('about.html')
 
+@app.route('/login')
+def login():
+    print(request.cookies.get("token"))
 
-@app.route('/register')
-def register():
-    return render_template('register.html')
-
-
-@app.route('/submitted', methods=['POST'])
-def register_complete():
-    name = request.form['name']
-    email = request.form['email']
-
-    return render_template('register_complete.html',
-                           name=name, email=email)
+    return render_template('login.html')
 
 
 # Page Not Found
@@ -71,11 +63,12 @@ if __name__ == '__main__':
     db_connection = config('SQL_CONNECTION')
 
     app.run(host='127.0.0.1', port=8080, debug=True)
-
 # Cloud Deployment - SQL variables saved in app.yaml.
 else:
     db_user = os.environ.get('SQL_USERNAME')
     db_password = os.environ.get('SQL_PASSWORD')
     db_database = os.environ.get('SQL_DATABASE')
     db_connection = os.environ.get('SQL_CONNECTION')
+
+
 

@@ -10,11 +10,13 @@
 
 
 {% block content %}
-    <h1>Datastore and Firebase Auth Example</h1>
+    <div class="card login-container centered">
+        <h1 class="display-6" style="text-align:center;color:#f7f7f7;">Login</h1>
+        <button id="sign-out" type="button" class="btn btn-danger" hidden=true>Sign Out</button>
+        <div id="firebaseui-auth-container" class="login-box">
+        </div>
 
-    <div id="firebaseui-auth-container"></div>
-
-    <button id="sign-out" hidden=true>Sign Out</button>
+    </div>
 {% endblock content %}
 
 
