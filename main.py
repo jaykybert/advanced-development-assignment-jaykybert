@@ -13,6 +13,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
+    return render_template('home.html')
+
+
+@app.route('/products')
+def products():
     results = None
     # Cloud Deployment
     if os.environ.get('GAE_ENV') == 'standard':
@@ -24,16 +29,17 @@ def home():
             results = cur.fetchall()
         conn.close()
 
-    # Local Deployment - Use TCP connections.
+    # Local Deployment - Use TCP.
     else:
         print('No database connection')
 
-    return render_template('home.html', results=results)
+    return render_template('products.html', results=results)
 
 
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 @app.route('/login')
 def login():

@@ -1,15 +1,44 @@
-
 body {
     padding-top: 5rem;
+    background-color: #cbdddf;
 }
 
 .centered {
     margin: auto;
 }
 
+.center-div {
+    margin: auto;
+    width: 65%;
+}
+
+/*
+ * Navigation Styling
+ */
+.nav-login-div {
+    padding-right: 1rem;
+}
+
+.nav-login-button {
+    width: 100px;
+}
+
+/*
+ * Login Card Styling
+ */
+
 .login-container {
     border: 2px solid black;
     width: 25%;
     background-color: #292b2c
 }
+
+
+/*
+ * Separator (divider) lines
+ */
+ hr.rounded {
+    border-top: 4px solid #000;
+    border-radius: 5px;
+ }
 
