@@ -10,6 +10,14 @@ app = Flask(__name__)
 
 # https://google.github.io/styleguide/pyguide.html
 
+
+sample_products = (
+    (1, "PS5", "A new gaming console.", 449.99, 4.99, "Sony", 500),
+    (2, "Xbox Series X", "Another new console.", 399.99, 4.99, 'Microsoft', 500),
+    (3, 'Nintendo Switch', 'Another console.', 279.99, 4.99, 'Nintendo', 500)
+)
+
+
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -32,19 +40,12 @@ def products():
     else:
         print('No database connection')
 
-    return render_template('products.html', products=results)
+    return render_template('products.html', products=sample_products)
 
 
 @app.route('/about')
 def about():
     return render_template('about.html')
-
-
-@app.route('/login')
-def login():
-    print(request.cookies.get("token"))
-
-    return render_template('login.html')
 
 
 # Page Not Found

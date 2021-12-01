@@ -3,6 +3,35 @@
 
 {% block content %}
     <h1 class="display-4">Products</h1>
+    <hr class="rounded"/>
+    <div class="products">
+        {% for product in products %}
+            <div class="card product-card">
+                <div class="card-header">
+                    <h4 class="card-title">{{ product[1] }}</h4>
+                    <h6 class="card-subtitle text-muted">{{ product[5] }}</h6>
+                </div>
 
-    {{ products }}
+                <div class="card-body">
+                    <div id="productImage">
+                        <img src="../static/assets/default_img.bmp" width="200" height="200"/>
+                    </div>
+                    <div id="productDesc">
+                        <p class="card-text">{{ product[2] }}</p>
+                    </div>
+
+                    <div id="productPrice">
+                        <p class="card-text product-price-text">
+                            £{{ product[3] }}
+                        </p>
+                        <p class="card-text product-delivery-text">+{{ product[4] }} shipping</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary">Add to Basket</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
 {% endblock content %}
