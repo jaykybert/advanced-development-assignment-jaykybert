@@ -10,7 +10,6 @@ app = Flask(__name__)
 
 # https://google.github.io/styleguide/pyguide.html
 
-
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -33,7 +32,7 @@ def products():
     else:
         print('No database connection')
 
-    return render_template('products.html', results=results)
+    return render_template('products.html', products=results)
 
 
 @app.route('/about')
