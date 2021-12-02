@@ -14,7 +14,8 @@ app = Flask(__name__)
 sample_products = (
     (1, "PS5", "A new gaming console.", 449.99, 4.99, "Sony", 500),
     (2, "Xbox Series X", "Another new console.", 399.99, 4.99, 'Microsoft', 500),
-    (3, 'Nintendo Switch', 'Another console.', 279.99, 4.99, 'Nintendo', 500)
+    (3, 'Nintendo Switch', 'Another console.', 279.99, 4.99, 'Nintendo', 500),
+    (4, 'chair', 'a way to sit down', 69.99, 6.99, 'Furniture Company', 1000)
 )
 
 
