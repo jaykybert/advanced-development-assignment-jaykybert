@@ -12,9 +12,9 @@ app = Flask(__name__)
 
 
 sample_products = (
-    (1, "PS5", "A new gaming console.", 449.99, 4.99, "Sony", 500),
-    (2, "Xbox Series X", "Another new console.", 399.99, 4.99, 'Microsoft', 500),
-    (3, 'Nintendo Switch', 'Another console.', 279.99, 4.99, 'Nintendo', 500),
+    (1, "lightbulb", "provides light inside of a bulb", 5.99, 0.0, "Wilkos", 10000),
+    (2, "kitchen knife", "can chop", 8.99, 0.0, 'TkMaxx', 500),
+    (3, 'Mikoyan MiG-29', 'A twin-engine jet fighter aircraft.', 0.99, 0.0, 'Soviet Union', 1600),
     (4, 'chair', 'a way to sit down', 69.99, 6.99, 'Furniture Company', 1000)
 )
 
@@ -47,6 +47,11 @@ def products():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+
+@app.route('/account')
+def account():
+    return render_template('account.html')
 
 
 # Page Not Found

@@ -24,11 +24,15 @@
                         <p class="card-text product-price-text">
                             £{{ product[3] }}
                         </p>
-                        <p class="card-text product-delivery-text">+{{ product[4] }} shipping</p>
+                        {% if product[4] > 0 %}
+                            <p class="card-text product-delivery-text">+{{ product[4] }} shipping</p>
+                        {% else %}
+                            <p class="card-text product-delivery-text">free shipping</p>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="button" class="btn btn-primary">Add to Basket</button>
+                    <button type="button" class="btn btn-primary" onclick="onAddToCart('{{product[0]}}')">Add to Cart</button>
                 </div>
             </div>
         {% endfor %}

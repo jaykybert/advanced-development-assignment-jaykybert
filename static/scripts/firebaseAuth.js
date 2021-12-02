@@ -1,3 +1,14 @@
+var loggedIn;
+
+function onAddToCart(productId) {
+    console.log("Added product " + productId);
+    var qtyStr = document.getElementById('shopping-cart-quantity-text').textContent;
+    var qty = parseInt(qtyStr) || 0;
+    qty += 1;
+    document.getElementById('shopping-cart-quantity-text').textContent = qty.toString();
+}
+
+
 'use strict';
 
 window.addEventListener('load', function () {
@@ -16,10 +27,12 @@ window.addEventListener('load', function () {
   };
 
   firebase.auth().onAuthStateChanged(function (user) {
+    loggedIn = user;
     // Signed In
     if (user) {
       document.getElementById("logout-button").style.display="block";
       document.getElementById("login-button").style.display="none";
+      document.getElementById("account-nav-item").style.display = "block";
       user.getIdToken().then(function (token) {
         document.cookie = "token=" + token;
       });
@@ -30,6 +43,7 @@ window.addEventListener('load', function () {
       var ui = new firebaseui.auth.AuthUI(firebase.auth());
       // Show the Firebase login button.
       document.getElementById("logout-button").style.display="none";
+      document.getElementById("account-nav-item").style.display = "none";
       ui.start('#firebaseui-auth-container', uiConfig);
 
       document.cookie = "token=";

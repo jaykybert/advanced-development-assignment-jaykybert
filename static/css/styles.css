@@ -12,6 +12,7 @@ body {
     width: 70%;
 }
 
+
 /*
  * Navigation Styling
  */
@@ -22,7 +23,15 @@ body {
 .nav-login-button {
     width: 100px;
 }
-
+.shopping-cart {
+    float: left;
+    margin-right: 50px;
+    margin-top: 5px;
+}
+.shopping-cart-quantity {
+    display: inline-block;
+    font-weight: bold;
+}
 
 
 /*
@@ -32,7 +41,6 @@ body {
     border-top: 4px solid #000;
     border-radius: 5px;
  }
-
 
 
  /*
@@ -56,13 +64,13 @@ body {
 
 }
 #productImage {
-
+    border: 1px;
 }
 
 #productDesc {
     margin-left: 10px;
     vertical-align: top;
-
+    width: 40%;
 }
 
 #productPrice {
@@ -78,4 +86,5 @@ body {
 }
 .product-delivery-text {
     font-style: italic;
+    margin-top: -5px;
 }
