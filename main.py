@@ -3,6 +3,7 @@ import os
 # Third-Party
 from flask import Flask, render_template, request
 import pymysql
+from pymongo import MongoClient
 # Application
 from decouple import config
 
@@ -18,10 +19,18 @@ sample_products = (
     (4, 'chair', 'a way to sit down', 69.99, 6.99, 'Furniture Company', 1000)
 )
 
+mongoCluster = MongoClient("mongodb+srv://advanced-development-admin:ada@advanced-development.25dxk.mongodb.net/ad-assignment?retryWrites=true&w=majority")
+db = mongoCluster["ad-assignment"]
+collection = db["cart"]
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    items = []
+    results = collection.find({"product": "test-product"})
+    for result in results:
+        items.append(result)
+
+    return render_template('home.html', mongoTest=items)
 
 
 @app.route('/products')
