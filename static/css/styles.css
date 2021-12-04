@@ -26,11 +26,11 @@ body {
 .shopping-cart {
     float: left;
     margin-right: 50px;
-    margin-top: 5px;
 }
 .shopping-cart-quantity {
     display: inline-block;
     font-weight: bold;
+
 }
 
 

@@ -1,11 +1,17 @@
 var loggedIn;
 
 function onAddToCart(productId) {
-    console.log("Added product " + productId);
-    var qtyStr = document.getElementById('shopping-cart-quantity-text').textContent;
-    var qty = parseInt(qtyStr) || 0;
-    qty += 1;
-    document.getElementById('shopping-cart-quantity-text').textContent = qty.toString();
+    if(loggedIn) {
+      console.log("Added product " + productId);
+      var qtyStr = document.getElementById('shopping-cart-quantity-text').textContent;
+      var qty = parseInt(qtyStr) || 0;
+      qty += 1;
+      document.getElementById('shopping-cart-quantity-text').textContent = qty.toString();
+    }
+    else {
+
+    }
+
 }
 
 
@@ -14,6 +20,13 @@ function onAddToCart(productId) {
 window.addEventListener('load', function () {
   document.getElementById('logout-button').onclick = function () {
     firebase.auth().signOut();
+
+    var products = document.getElementsByClassName("add-to-cart");
+    for(var i=0; i < products.length; i++) {
+      products[i].style.display = "none";
+    }
+
+
     document.getElementById('login-button').style.display="block";
   };
 
@@ -30,10 +43,16 @@ window.addEventListener('load', function () {
     loggedIn = user;
     // Signed In
     if (user) {
+      var products = document.getElementsByClassName("add-to-cart");
+      for(var i=0; i < products.length; i++) {
+        products[i].style.display = "block";
+      }
+
       document.getElementById("logout-button").style.display="block";
       document.getElementById("login-button").style.display="none";
       document.getElementById("account-nav-item").style.display = "block";
       user.getIdToken().then(function (token) {
+        console.log(user.uid);
         document.cookie = "token=" + token;
       });
     }
