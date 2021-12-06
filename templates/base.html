@@ -67,8 +67,8 @@
 
                 <div class="ms-auto">
                         <div class="shopping-cart">
-                            <img src="../static/assets/shopping_cart.png" alt="Shopping Cart" width="30" height="30"/>
-                            <p id="shopping-cart-quantity-text" class="shopping-cart-quantity"></p>
+                            <input type="image" src="../static/assets/shopping_cart.png" width="50" height="40" class="btn" alt="Shopping Cart"
+                            data-toggle="modal" data-target="#cartModal"/>
                         </div>
 
                         <form class="nav-login-div" style="float:right;">
@@ -91,7 +91,6 @@
         </main>
     </div>
 
-
     <!-- Login Modal -->
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -104,6 +103,26 @@
           </div>
           <div class="modal-body">
             <div id="firebaseui-auth-container" class="login-box"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Cart Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Your Shopping Cart</h5>
+            <button type="button" class="btn btn-danger close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div>
+                <p>hello</p>
+            </div>
           </div>
         </div>
       </div>

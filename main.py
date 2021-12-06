@@ -8,6 +8,7 @@ import database_wrapper
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def home():
     items = []
@@ -59,8 +60,6 @@ mongoCluster = MongoClient("mongodb+srv://advanced-development-admin:ada@advance
 db = mongoCluster["ad-assignment"]
 collection = db["cart"]
 
-
-# Local Deployment - SQL variables saved in .env.
 if __name__ == '__main__':
     print('--------------------- Local Deployment')
     db_wrapper = database_wrapper.DatabaseWrapper(db_user, db_password, db_connection, db_database, True)
@@ -68,7 +67,6 @@ if __name__ == '__main__':
 
     app.run(host='127.0.0.1', port=8080, debug=True)
 
-# Cloud Deployment - SQL variables saved in app.yaml.
 else:
     print('--------------------- Cloud Deployment')
     db_wrapper = database_wrapper.DatabaseWrapper(db_user, db_password, db_connection, db_database, False)
