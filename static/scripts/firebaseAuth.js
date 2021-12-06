@@ -26,7 +26,6 @@ window.addEventListener('load', function () {
       products[i].style.display = "none";
     }
 
-
     document.getElementById('login-button').style.display="block";
   };
 
@@ -39,7 +38,7 @@ window.addEventListener('load', function () {
     ]
   };
 
-  firebase.auth().onAuthStateChanged(function (user) {
+  firebase.auth().onIdTokenChanged(function (user) {
     loggedIn = user;
     // Signed In
     if (user) {
