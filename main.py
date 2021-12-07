@@ -1,7 +1,7 @@
 # Third-Party
-from flask import Flask, render_template
-from pymongo import MongoClient
+from flask import Flask, render_template, redirect
 import pymysql
+import requests
 # Application
 from decouple import config
 # Local
@@ -24,12 +24,12 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    items = []
-    results = collection.find({"product": "test-product"})
-    for result in results:
-        items.append(result)
 
-    return render_template('home.html', mongoTest=items)
+    req = requests.post(config('SERVICE_MESH_URL'),
+                        json={'source': 'mongo'},
+                        headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
+
+    return render_template('home.html', mongoTest=req.content)
 
 
 @app.route('/products')
@@ -72,10 +72,6 @@ mongo_pass = config('MONGO_PASSWORD')
 
 # https://google.github.io/styleguide/pyguide.html
 
-mongoCluster = MongoClient("mongodb+srv://advanced-development-admin:ada@advanced-development.25dxk.mongodb.net/ad-assignment?retryWrites=true&w=majority")
-db = mongoCluster["ad-assignment"]
-collection = db["cart"]
-
 if __name__ == '__main__':
     print('--------------------- Local Deployment')
     db_wrapper = database_wrapper.DatabaseWrapper(sql_user, sql_pass, sql_conn, sql_name, True)
@@ -83,7 +79,6 @@ if __name__ == '__main__':
         db_wrapper.connect()
     except pymysql.OperationalError as exc:
         print('Could not connect to Cloud SQL.')
-        print(exc)
 
     app.run(host='127.0.0.1', port=8080, debug=True)
 

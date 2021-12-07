@@ -26,8 +26,10 @@ class DatabaseWrapper:
                                               unix_socket=unix_socket, db=self.database)
 
     def query(self, query):
-        with self.connection.cursor() as cursor:
-            cursor.execute(query)
-            results = cursor.fetchall()
-            return results
-
+        try:
+            with self.connection.cursor() as cursor:
+                cursor.execute(query)
+                results = cursor.fetchall()
+                return results
+        except AttributeError:
+            return ()

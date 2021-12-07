@@ -4,3 +4,4 @@ google-auth==1.31.0
 decouple
 pymongo
 dnspython
+requests
