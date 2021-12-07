@@ -1,7 +1,7 @@
 Flask==1.0.2
 PyMySQL==1.0.2
 google-auth==1.31.0
-decouple
 pymongo
 dnspython
 requests
+python-dotenv

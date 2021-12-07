@@ -2,3 +2,4 @@
 # package>=version
 functions-framework==2.0.0
 requests
+python-dotenv

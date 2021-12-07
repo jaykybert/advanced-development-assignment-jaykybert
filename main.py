@@ -1,13 +1,12 @@
+# Local
+import os
 # Third-Party
-from flask import Flask, render_template, redirect
-import pymysql
+from flask import Flask, render_template
 import requests
 # Application
-from decouple import config
-# Local
-import database_wrapper
+from dotenv import load_dotenv
 
-app = Flask(__name__)
+# ------------------------------------------------------------------
 
 # TODO: Customise authentication login - store address data in firestore.
 #           -> Also include user type in firestore
@@ -21,23 +20,35 @@ app = Flask(__name__)
 
 # TODO: Add product tracking (mongo?)
 
+# https://google.github.io/styleguide/pyguide.html
+
+#   ./cloud_sql_proxy -instances=ad-assignment-21:europe-west2:advanced-development=tcp:127.0.0.1:1433
+
+# ------------------------------------------------------------------
+
+
+app = Flask(__name__)
+
 
 @app.route('/')
 def home():
 
-    req = requests.post(config('SERVICE_MESH_URL'),
-                        json={'source': 'mongo'},
+    req = requests.post(os.environ.get('SERVICE_MESH_URL'),
+                        json={'source': 'mongo-db'},
                         headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
+    cart_json = req.json()
 
-    return render_template('home.html', mongoTest=req.content)
+    return render_template('home.html', mongoTest=cart_json)
 
 
 @app.route('/products')
 def products():
+    req = requests.post(os.environ.get('SERVICE_MESH_URL'),
+                        json={'source': 'cloud-sql'},
+                        headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
+    products_json = req.json()
 
-    results = db_wrapper.query('SELECT * FROM PRODUCT;')
-    print(results)
-    return render_template('products.html', products=results)
+    return render_template('products.html', products=products_json)
 
 
 @app.route('/about')
@@ -62,28 +73,18 @@ def error_500(e):
     return render_template('error.html', error=e)
 
 
-sql_user = config('CLOUD_SQL_USERNAME')
-sql_pass = config('CLOUD_SQL_PASSWORD')
-sql_conn = config('CLOUD_SQL_CONNECTION')
-sql_name = config('CLOUD_SQL_DATABASE')
+load_dotenv()
 
-mongo_user = config('MONGO_USERNAME')
-mongo_pass = config('MONGO_PASSWORD')
 
-# https://google.github.io/styleguide/pyguide.html
+mongo_user = os.environ.get('MONGO_DB_USERNAME')
+mongo_pass = os.environ.get('MONGO_DB_PASSWORD')
+
 
 if __name__ == '__main__':
     print('--------------------- Local Deployment')
-    db_wrapper = database_wrapper.DatabaseWrapper(sql_user, sql_pass, sql_conn, sql_name, True)
-    try:
-        db_wrapper.connect()
-    except pymysql.OperationalError as exc:
-        print('Could not connect to Cloud SQL.')
-
     app.run(host='127.0.0.1', port=8080, debug=True)
 
 else:
     print('--------------------- Cloud Deployment')
-    db_wrapper = database_wrapper.DatabaseWrapper(sql_user, sql_pass, sql_conn, sql_name, False)
-    db_wrapper.connect()
+
 
