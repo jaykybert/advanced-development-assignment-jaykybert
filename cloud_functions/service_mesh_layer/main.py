@@ -1,6 +1,8 @@
 import requests
 import json
 
+# https://europe-west2-ad-assignment-21.cloudfunctions.net/service_mesh_layer
+
 
 def service_mesh_layer(request):
     request_json = request.get_json(silent=True)
