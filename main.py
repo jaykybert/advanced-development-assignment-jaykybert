@@ -1,7 +1,7 @@
 # Local
 import os
 # Third-Party
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for, request, jsonify, session
 import requests
 # Application
 from dotenv import load_dotenv
@@ -12,27 +12,21 @@ from dotenv import load_dotenv
 #           -> Also include user type in firestore
 #           -> See https://medium.com/@bariskarapinar/firebase-authentication-web-app-javascript-3165ebc92b68
 
-# TODO: service mesh layer
-#           -> create mesh, move database stuff to cloud functions.
-#           -> mongo db, cloudsql
-
 # TODO: save product images somewhere (?)
 
 # TODO: Add product tracking (mongo?)
 
 # https://google.github.io/styleguide/pyguide.html
 
-#   ./cloud_sql_proxy -instances=ad-assignment-21:europe-west2:advanced-development=tcp:127.0.0.1:1433
-
 # ------------------------------------------------------------------
 
+load_dotenv()
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def home():
-
     req = requests.post(os.environ.get('SERVICE_MESH_URL'),
                         json={'source': 'mongo-db'},
                         headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
@@ -61,6 +55,17 @@ def account():
     return render_template('account.html')
 
 
+# Request Routes
+@app.route('/cart', methods=['GET', 'POST'])
+def shopping_cart():
+    print('backend!')
+
+    if request.method == 'POST':
+        cart_data = request.get_json()
+        print(cart_data)
+
+    return jsonify({'status': 200 })
+
 # Page Not Found
 @app.errorhandler(404)
 def error_404(e):
@@ -71,13 +76,6 @@ def error_404(e):
 @app.errorhandler(500)
 def error_500(e):
     return render_template('error.html', error=e)
-
-
-load_dotenv()
-
-
-mongo_user = os.environ.get('MONGO_DB_USERNAME')
-mongo_pass = os.environ.get('MONGO_DB_PASSWORD')
 
 
 if __name__ == '__main__':
