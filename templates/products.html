@@ -2,6 +2,7 @@
 
 
 {% block content %}
+
     <h1 class="display-4">Products</h1>
     <hr class="rounded"/>
     <div class="products">
@@ -38,5 +39,8 @@
             </div>
         {% endfor %}
     </div>
-
 {% endblock content %}
+
+{% block end %}
+    <script src="../static/scripts/shoppingCart.js"></script>
+{% endblock end %}

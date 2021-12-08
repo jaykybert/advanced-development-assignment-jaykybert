@@ -1,19 +1,3 @@
-var loggedIn;
-
-function onAddToCart(productId) {
-
-    $.ajax({
-        type: "POST",
-        url: "/cart",
-        data: JSON.stringify({'id': productId}),
-        contentType: "application/json",
-        dataType: "json",
-        success: function(result) {
-            console.log('success!');
-        }
-    });
-}
-
 
 'use strict';
 
@@ -21,6 +5,7 @@ window.addEventListener('load', function () {
   document.getElementById('logout-button').onclick = function () {
     firebase.auth().signOut();
 
+    // Remove 'Add to Cart' buttons.
     var products = document.getElementsByClassName("add-to-cart");
     for(var i=0; i < products.length; i++) {
       products[i].style.display = "none";
@@ -31,15 +16,15 @@ window.addEventListener('load', function () {
 
   // FirebaseUI config.
   var uiConfig = {
-    signInSuccessUrl: '/products',
+    signInSuccessUrl: '/',
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.EmailAuthProvider.PROVIDER_ID,
     ]
   };
 
-  firebase.auth().onIdTokenChanged(function (user) {
-    loggedIn = user;
+  firebase.auth().onAuthStateChanged(function (user) {
+
     // Signed In
     if (user) {
       var products = document.getElementsByClassName("add-to-cart");
@@ -50,9 +35,23 @@ window.addEventListener('load', function () {
       document.getElementById("logout-button").style.display="block";
       document.getElementById("login-button").style.display="none";
       document.getElementById("account-nav-item").style.display = "block";
-      user.getIdToken().then(function (token) {
-        document.cookie = "token=" + token;
-      });
+      document.getElementById("shopping-cart").style.display = "block";
+
+      // Update back-end session.
+            $.ajax({
+        type: "POST",
+        url: "/auth",
+        data: JSON.stringify({ "uid": user.uid,
+                                    "name": user.displayName,
+                                    "email": user.email}),
+        contentType: "application/json",
+        dataType: "json",
+        success: function(result) {
+            console.log('success!');
+        }
+    });
+
+
     }
     // Signed Out
     else {
@@ -61,9 +60,22 @@ window.addEventListener('load', function () {
       // Show the Firebase login button.
       document.getElementById("logout-button").style.display="none";
       document.getElementById("account-nav-item").style.display = "none";
+      document.getElementById("shopping-cart").style.display = "none";
       ui.start('#firebaseui-auth-container', uiConfig);
 
-      document.cookie = "token=";
+      // Update back-end session.
+            $.ajax({
+        type: "POST",
+        url: "/auth",
+        data: JSON.stringify({ "logged-out": true}),
+        contentType: "application/json",
+        dataType: "json",
+        success: function(result) {
+            console.log('success!');
+        }
+    });
+
+
     }
   }, function (error) {
     console.warn(error);

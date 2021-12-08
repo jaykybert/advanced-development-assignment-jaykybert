@@ -1,7 +1,7 @@
 # Local
 import os
 # Third-Party
-from flask import Flask, render_template, url_for, request, jsonify, session
+from flask import Flask, redirect, render_template, url_for, request, jsonify, session
 import requests
 # Application
 from dotenv import load_dotenv
@@ -20,13 +20,16 @@ from dotenv import load_dotenv
 
 # ------------------------------------------------------------------
 
+# Load environment variables from .env, start Flask app.
 load_dotenv()
 
 app = Flask(__name__)
+app.secret_key = os.environ.get('APP_SECRET_KEY')
 
 
 @app.route('/')
 def home():
+
     req = requests.post(os.environ.get('SERVICE_MESH_URL'),
                         json={'source': 'mongo-db'},
                         headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
@@ -57,14 +60,28 @@ def account():
 
 # Request Routes
 @app.route('/cart', methods=['GET', 'POST'])
-def shopping_cart():
-    print('backend!')
-
+def cart():
     if request.method == 'POST':
         cart_data = request.get_json()
         print(cart_data)
 
-    return jsonify({'status': 200 })
+    return jsonify({'status': 200})
+
+
+@app.route('/auth', methods=['POST'])
+def auth():
+    user = request.get_json()
+
+    if 'logged-out' in user:
+        session.pop('user', None)
+        print('Logging out...')
+
+    else:
+        session['user'] = user
+        print('Logging in...')
+
+    return jsonify({'status': 200})
+
 
 # Page Not Found
 @app.errorhandler(404)
