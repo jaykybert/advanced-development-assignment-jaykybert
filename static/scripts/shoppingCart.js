@@ -1,13 +1,24 @@
 
-function onAddToCart(productId) {
+function onAddToCart(id, name, price) {
+
+    var products = {
+        "id": id,
+        "name": name,
+        "price": price
+    };
+
+    console.log(products);
+
     $.ajax({
         type: "POST",
         url: "/cart",
-        data: JSON.stringify({'id': productId}),
+        data: JSON.stringify(products),
         contentType: "application/json",
         dataType: "json",
-        success: function(result) {
-            console.log('success!');
+        success: function(cartContents) {
+            console.log(cartContents);
+            var cart = document.getElementById("cart-content");
+            cart.innerHTML = cartContents;
         }
     });
 }

@@ -5,6 +5,7 @@ import json
 import pymysql
 from dotenv import load_dotenv
 
+# https://europe-west2-ad-assignment-21.cloudfunctions.net/cloud_sql_service
 
 def cloud_sql_service(request):
 

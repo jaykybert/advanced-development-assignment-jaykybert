@@ -29,11 +29,13 @@ app.secret_key = os.environ.get('APP_SECRET_KEY')
 
 @app.route('/')
 def home():
+    cart_json = None
+    if 'user' in session:
 
-    req = requests.post(os.environ.get('SERVICE_MESH_URL'),
-                        json={'source': 'mongo-db'},
-                        headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
-    cart_json = req.json()
+        req = requests.post(os.environ.get('SERVICE_MESH_URL'),
+                            json={'source': 'mongo-db', 'uid': session['user']['uid'], 'action': 'GET'},
+                            headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
+        cart_json = req.json()
 
     return render_template('home.html', mongoTest=cart_json)
 
@@ -44,7 +46,6 @@ def products():
                         json={'source': 'cloud-sql'},
                         headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
     products_json = req.json()
-    print(products_json)
 
     return render_template('products.html', products=products_json)
 
@@ -62,24 +63,38 @@ def account():
 # Request Routes
 @app.route('/cart', methods=['GET', 'POST'])
 def cart():
-    if request.method == 'POST':
+    cart_json = {}
+    if request.method == 'POST' and 'user' in session:
         cart_data = request.get_json()
+
         print(cart_data)
+
+        req = requests.post(os.environ.get('SERVICE_MESH_URL'),
+                            json={'source': 'mongo-db', 'uid': session['user']['uid'], 'action': 'POST', 'product': cart_data},
+                            headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
+        cart_json = req.content
+        print(cart_json)
+
+    return cart_json
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    user = request.get_json()
+    if 'uid' in user:
+
+        session['user'] = user
+    print('Logging in...')
 
     return jsonify({'status': 200})
 
 
-@app.route('/auth', methods=['POST'])
-def auth():
+@app.route('/logout', methods=['POST'])
+def logout():
     user = request.get_json()
 
     if 'logged-out' in user:
         session.pop('user', None)
-        print('Logging out...')
-
-    else:
-        session['user'] = user
-        print('Logging in...')
 
     return jsonify({'status': 200})
 

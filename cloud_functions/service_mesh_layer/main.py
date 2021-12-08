@@ -17,23 +17,26 @@ def service_mesh_layer(request):
 
     # Check data source, switch to the appropriate mesh service.
 
-    # JSON passed.
-    if request_json and 'source' in request_json:
-        mesh_source = request_json['source']
-    # Querystring passed.
-    else:
-        mesh_source = request.args.get('source')
+    mesh_source = request_json['source']
 
-    service_url = None
     # Services
     if mesh_source == 'mongo-db':
         service_url = os.environ.get('MONGO_DB_SERVICE_URL')
 
+        # MongoDB request using a product ID.
+        if 'product' in request_json:
+            json_data = requests.post(service_url,
+                        json={'uid': request_json['uid'], 'action': request_json['action'], 'product': request_json['product']},
+                        headers={'Content-type': 'application/json', 'Accept': 'text/plain'}).content
+        # MongoDB request without a product ID.
+        else:
+            json_data = requests.post(service_url,
+                        json={'uid': request_json['uid'], 'action': request_json['action']},
+                        headers={'Content-type': 'application/json', 'Accept': 'text/plain'}).content
+        return json_data
+
     elif mesh_source == 'cloud-sql':
         service_url = os.environ.get('CLOUD_SQL_SERVICE_URL')
-
-    # Service Request
-    if service_url is not None:
         json_data = requests.get(service_url).content
         return json_data
     else:

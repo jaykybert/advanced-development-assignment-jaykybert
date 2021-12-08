@@ -12,11 +12,12 @@ window.addEventListener('load', function () {
     }
 
     document.getElementById('login-button').style.display="block";
+
   };
 
   // FirebaseUI config.
   var uiConfig = {
-    signInSuccessUrl: '/',
+    signInSuccessUrl: '/account',
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.EmailAuthProvider.PROVIDER_ID,
@@ -38,9 +39,9 @@ window.addEventListener('load', function () {
       document.getElementById("shopping-cart").style.display = "block";
 
       // Update back-end session.
-            $.ajax({
+        $.ajax({
         type: "POST",
-        url: "/auth",
+        url: "/login",
         data: JSON.stringify({ "uid": user.uid,
                                     "name": user.displayName,
                                     "email": user.email}),
@@ -63,10 +64,10 @@ window.addEventListener('load', function () {
       document.getElementById("shopping-cart").style.display = "none";
       ui.start('#firebaseui-auth-container', uiConfig);
 
-      // Update back-end session.
-            $.ajax({
+                // Update back-end session.
+    $.ajax({
         type: "POST",
-        url: "/auth",
+        url: "/logout",
         data: JSON.stringify({ "logged-out": true}),
         contentType: "application/json",
         dataType: "json",
@@ -74,6 +75,8 @@ window.addEventListener('load', function () {
             console.log('success!');
         }
     });
+
+
 
 
     }
