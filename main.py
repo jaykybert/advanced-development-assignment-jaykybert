@@ -44,6 +44,7 @@ def products():
                         json={'source': 'cloud-sql'},
                         headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
     products_json = req.json()
+    print(products_json)
 
     return render_template('products.html', products=products_json)
 

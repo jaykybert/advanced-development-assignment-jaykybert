@@ -34,7 +34,7 @@ def service_mesh_layer(request):
 
     # Service Request
     if service_url is not None:
-        json_data = requests.get(service_url)
+        json_data = requests.get(service_url).content
         return json_data
     else:
         return json.dumps({'error': 'invalid service requested'})
