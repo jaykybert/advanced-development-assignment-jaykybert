@@ -118,7 +118,47 @@
           </div>
           <div class="modal-body">
             <div id="cart-content">
-                <p>hello</p>
+                <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
+
+                <hr class="rounded"/>
+
+                <button type="button" id="continue-button" class="btn btn-warning" onclick="continueWithAddress()">Continue</button>
+
+                <div id="shipping-address" style="display:none;">
+                <form action="{{ url_for('account')}}" method="post" >
+                        <h6 style="text-align: center; font-weight: bold;">Shipping Address</h6>
+                        <input name="address1" type="text" class="form-control address-field" placeholder="Address Line 1" required>
+                        <input name="address2" type="text" class="form-control address-field" placeholder="Address Line 2 (optional)" >
+
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" class="form-control address-field" placeholder="Postcode" required>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control address-field" placeholder="Country" required>
+                            </div>
+                        </div>
+
+                        <input type="text" class="form-control address-field" placeholder="Mobile (optional)">
+
+                        <br/>
+
+                        <hr class="rounded"/>
+
+                        <div>
+                            <button type="submit" id="payment-button" class="btn btn-success" onclick="orderPayment()">Confirm Payment</button>
+                        </div>
+                </form>
+                </div>
             </div>
           </div>
         </div>
@@ -137,6 +177,9 @@
     <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-analytics.js"></script>
     <script src="../static/scripts/firebaseConfig.js"></script>
+
+    <!-- Cart Logic -->
+    <script src="../static/scripts/shoppingCart.js"></script>
 </body>
 
 {% block end %}

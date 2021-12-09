@@ -16,6 +16,9 @@ from dotenv import load_dotenv
 
 # TODO: Add product tracking (mongo?)
 
+# TODO: On payment, get json object from mongo, move to another collection
+#           -> then delete the one from cart.
+
 # https://google.github.io/styleguide/pyguide.html
 
 # ------------------------------------------------------------------
@@ -33,9 +36,10 @@ def home():
     if 'user' in session:
 
         req = requests.post(os.environ.get('SERVICE_MESH_URL'),
-                            json={'source': 'mongo-db', 'uid': session['user']['uid'], 'action': 'GET'},
+                            json={'source': 'mongo-db-get-cart', 'uid': session['user']['uid']},
                             headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
-        cart_json = req.json()
+        cart_json = req.content
+        print(cart_json)
 
     return render_template('home.html', mongoTest=cart_json)
 
@@ -55,8 +59,15 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/account')
+@app.route('/account', methods=['GET', 'POST'])
 def account():
+    # Account access via post - order just made.
+    if request.form.get('address1') is not None:
+        print('Order made.')
+
+    else:
+        print('No order made.')
+
     return render_template('account.html')
 
 
@@ -70,12 +81,25 @@ def cart():
         print(cart_data)
 
         req = requests.post(os.environ.get('SERVICE_MESH_URL'),
-                            json={'source': 'mongo-db', 'uid': session['user']['uid'], 'action': 'POST', 'product': cart_data},
+                            json={'source': 'mongo-db-update-cart', 'uid': session['user']['uid'], 'product': cart_data},
                             headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
         cart_json = req.content
         print(cart_json)
 
     return cart_json
+
+
+@app.route('/payment', methods=['GET'])
+def payment():
+
+    req = requests.post(os.environ.get('SERVICE_MESH_URL'),
+                        json={'source': 'mongo-db-payment', 'uid': session['user']['uid']},
+                        headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
+
+    results = req.content
+    print(results)
+
+    return redirect(url_for('account'))
 
 
 @app.route('/login', methods=['POST'])

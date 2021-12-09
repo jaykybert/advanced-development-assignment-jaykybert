@@ -7,8 +7,6 @@ function onAddToCart(id, name, price) {
         "price": price
     };
 
-    console.log(products);
-
     $.ajax({
         type: "POST",
         url: "/cart",
@@ -16,9 +14,19 @@ function onAddToCart(id, name, price) {
         contentType: "application/json",
         dataType: "json",
         success: function(cartContents) {
-            console.log(cartContents);
             var cart = document.getElementById("cart-content");
-            cart.innerHTML = cartContents;
+
+
+            tableBody = document.getElementById("table-body")
+
+            console.log(cartContents[0]['1'])
         }
     });
+}
+
+function continueWithAddress() {
+    var address = document.getElementById("shipping-address")
+    address.style.display = "block";
+    var continueButton = document.getElementById("continue-button")
+    continueButton.style.display="none";
 }
