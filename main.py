@@ -29,81 +29,10 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.environ.get('APP_SECRET_KEY')
 
-# Standard
-import datetime
-import os
-import json
-# Third-Party
-from bson.json_util import dumps
-from bson import BSON
-from dotenv import load_dotenv
-from pymongo import MongoClient
-
-
-# https://europe-west2-ad-assignment-21.cloudfunctions.net/mongo_db_payment
-
-
-def mongo_db_payment(user_id):
-    load_dotenv()
-
-    request_json = request.get_json(silent=True)
-
-    uid = user_id
-
-    mongo_user = os.environ.get('MONGO_DB_USERNAME')
-    mongo_pass = os.environ.get('MONGO_DB_PASSWORD')
-
-    client = MongoClient('mongodb+srv://{}:{}@advanced-development.25dxk.mongodb.net/ad-assignment?retryWrites=true&w=majority'.format(mongo_user, mongo_pass))
-
-    db = client['ad-assignment']
-    cart_collection = db['cart']
-
-    order_date = str(datetime.datetime.now())
-
-    # Update cart document
-    cart_collection.update_one({'uid': uid}, {'$set': {'order': {'status': 'Processed', 'date': order_date}}})
-    cursor = cart_collection.find_one({'uid': uid})
-    print(cursor)
-    print(type(cursor))
-    cursor_json = dumps(cursor)
-    print(cursor_json)
-
-    # Open orders, work out order id.
-    order_collection = db['orders']
-    order_count = order_collection.count_documents({})
-
-    new_order_id = 'o-' + str(order_count + 1)
-
-    cart_collection.insert_one({'oid': new_order_id})
-
-
-
-
-
-    return dumps(cursor)
-
-    # Todo delete basket.
-
 
 @app.route('/')
 def home():
-
-    cart_json = None
-
-    cart_json = mongo_db_payment("YMU9OpJC1YcXX2Ix1nUF6WQAKTA2")
-
-
-    """
-    if 'user' in session:
-
-        req = requests.post(os.environ.get('SERVICE_MESH_URL'),
-                            json={'source': 'mongo-db-get-cart', 'uid': session['user']['uid']},
-                            headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
-        cart_json = req.content
-        print(cart_json)
-    """
-
-    return render_template('home.html', mongoTest=cart_json)
+    return render_template('home.html')
 
 
 @app.route('/products')
@@ -112,6 +41,12 @@ def products():
                         json={'source': 'cloud-sql'},
                         headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
     products_json = req.json()
+
+    if 'user' in session:
+
+        req = requests.post(os.environ.get('SERVICE_MESH_URL'),
+                            json={'source': 'mongo-db-get-cart', 'uid': session['user']['uid']},
+                            headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
 
     return render_template('products.html', products=products_json)
 
@@ -124,9 +59,22 @@ def about():
 @app.route('/account', methods=['GET', 'POST'])
 def account():
     # Account access via post - order just made.
-    if request.form.get('address1') is not None:
-        print('Order made.')
+    if request.form.get('address-line-1') is not None:
 
+        address = {
+            'address1': request.form.get('address-line-1'),
+            'address2': request.form.get('address-line-2'),
+            'postcode': request.form.get('postcode'),
+            'country': request.form.get('country'),
+            'mobile': request.form.get('mobile')
+        }
+
+        req = requests.post(os.environ.get('SERVICE_MESH_URL'),
+                            json={'source': 'mongo-db-payment', 'uid': session['user']['uid'], 'address': address},
+                            headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
+
+        results = req.json()
+        print(results)
     else:
         print('No order made.')
 
@@ -140,28 +88,19 @@ def cart():
     if request.method == 'POST' and 'user' in session:
         cart_data = request.get_json()
 
-        print(cart_data)
-
         req = requests.post(os.environ.get('SERVICE_MESH_URL'),
                             json={'source': 'mongo-db-update-cart', 'uid': session['user']['uid'], 'product': cart_data},
                             headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
         cart_json = req.content
-        print(cart_json)
+
+    if request.method == 'GET' and 'user' in session:
+        print('getting')
+        req = requests.post(os.environ.get('SERVICE_MESH_URL'),
+                            json={'source': 'mongo-db-get-cart', 'uid': session['user']['uid']},
+                            headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
+        cart_json = req.content
 
     return cart_json
-
-
-@app.route('/payment', methods=['GET'])
-def payment():
-
-    req = requests.post(os.environ.get('SERVICE_MESH_URL'),
-                        json={'source': 'mongo-db-payment', 'uid': session['user']['uid']},
-                        headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
-
-    results = req.content
-    print(results)
-
-    return redirect(url_for('account'))
 
 
 @app.route('/login', methods=['POST'])

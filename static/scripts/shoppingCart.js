@@ -1,6 +1,5 @@
 
 function onAddToCart(id, name, price) {
-
     var products = {
         "id": id,
         "name": name,
@@ -14,18 +13,46 @@ function onAddToCart(id, name, price) {
         contentType: "application/json",
         dataType: "json",
         success: function(cartContents) {
-            var cart = document.getElementById("cart-content");
-            tableBody = document.getElementById("table-body")
-
-
-            console.log(cartContents[0]);
+            console.log(cartContents);
         }
     });
 }
 
+
 function continueWithAddress() {
-    var address = document.getElementById("shipping-address")
+    var address = document.getElementById("shipping-address");
     address.style.display = "block";
-    var continueButton = document.getElementById("continue-button")
+    var continueButton = document.getElementById("continue-button");
     continueButton.style.display="none";
+}
+
+
+function onViewCart() {
+        $.ajax({
+        type: "GET",
+        url: "/cart",
+        contentType: "application/json",
+
+        success: function(cartContents) {
+            var cart = JSON.parse(cartContents)
+            var cartTable = document.getElementById('table-body')
+            cartTable.innerHTML = "";
+            console.log(cart[0]);
+            var totalPrice = 0;
+            for(var i=0; i < cart[0]['products'].length; i++) {
+                totalPrice += parseFloat(cart[0]['products'][i]['price']);
+
+                cartTable.innerHTML += "<tr>" +
+                    "<td>" + cart[0]['products'][i]['name'] + "</td>" +
+                    "<td>£" + cart[0]['products'][i]['price'] + "</td>" +
+                    "</tr>"
+            }
+            if(totalPrice !== 0) {
+                cartTable.innerHTML += "<tr>" +
+                    "<td></td>" +
+                    "<td>Total: £" + totalPrice + "</td>" +
+                    "</tr>"
+            }
+        }
+    });
 }

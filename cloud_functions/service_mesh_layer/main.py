@@ -39,7 +39,7 @@ def service_mesh_layer(request):
     elif mesh_source == 'mongo-db-payment':
         service_url = os.environ.get('MONGO_DB_PAYMENT_URL')
         json_data = requests.post(service_url,
-                json={'uid': request_json['uid']},
+                json={'uid': request_json['uid'], 'address': request_json['address']},
                 headers={'Content-type': 'application/json', 'Accept': 'text/plain'}).content
         return json_data
 

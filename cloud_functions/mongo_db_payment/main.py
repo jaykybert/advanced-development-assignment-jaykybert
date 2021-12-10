@@ -1,3 +1,4 @@
+
 # Standard
 import datetime
 import os
@@ -9,13 +10,15 @@ from pymongo import MongoClient
 
 # https://europe-west2-ad-assignment-21.cloudfunctions.net/mongo_db_payment
 
+
 def mongo_db_payment(request):
     load_dotenv()
 
     request_json = request.get_json(silent=True)
 
-    if 'uid' in request_json:
+    if 'uid' in request_json and 'address' in request_json:
         uid = request_json['uid']
+        address = request_json['address']
 
         mongo_user = os.environ.get('MONGO_DB_USERNAME')
         mongo_pass = os.environ.get('MONGO_DB_PASSWORD')
@@ -23,20 +26,31 @@ def mongo_db_payment(request):
         client = MongoClient('mongodb+srv://{}:{}@advanced-development.25dxk.mongodb.net/ad-assignment?retryWrites=true&w=majority'.format(mongo_user, mongo_pass))
 
         db = client['ad-assignment']
-        collection = db['cart']
 
-        # Update cart collection.
-        collection.update_one({'uid': uid}, {'$set': {'order': {'status': 'Processed', 'date': datetime.datetime.now()}}})
-        cursor = collection.find({'uid': uid})
-        json_data = dumps(cursor)
+        # Update cart document
+        cart_collection = db['cart']
+        order_date = str(datetime.datetime.now())
+        cart_collection.update_one({'uid': uid}, {'$set': {'order': {'status': 'Processed', 'date': order_date}}})
+        cart_json = cart_collection.find_one({'uid': uid})
 
+        # Delete cart
+        cart_collection.delete_one({'uid': uid})
 
-        # Open order collection
+        # Open orders, work out order id.
+        order_collection = db['orders']
+        order_count = order_collection.count_documents({})
 
-        # create new order entry, with a unique id (not just the uid)
+        new_order_id = 'o-' + str(order_count + 1)
 
+        cart_json['order-id'] = new_order_id
+        cart_json['address'] = address
 
-        # delete the record in the cart collection.
-        return json_data
+        # Insert the cart json + an order-id into the order collection.
+        order_collection.insert_one(cart_json)
+
+        order_json = order_collection.find({'uid': uid})
+
+        return dumps(order_json)
     else:
         return {}
+

@@ -15,7 +15,6 @@ def mongo_db_get_cart(request):
 
     if 'uid' in request_json:
         uid = request_json['uid']
-
         mongo_user = os.environ.get('MONGO_DB_USERNAME')
         mongo_pass = os.environ.get('MONGO_DB_PASSWORD')
 
@@ -23,12 +22,13 @@ def mongo_db_get_cart(request):
 
         db = client['ad-assignment']
         collection = db['cart']
-        cursor = collection.find({'uid': uid})
+        user_cart = collection.find({'uid': uid})
 
-        json_data = dumps(cursor)
-        # Create new user.
+        json_data = dumps(user_cart)
+        # No user found - create new user cart.
         if json_data == '[]':
-            collection.insert_one({'uid': uid})
+            cart_structure = {'uid': uid, 'products': []}
+            collection.insert_one(cart_structure)
             cursor = collection.find({'uid': uid})
             json_data = dumps(cursor)
 
