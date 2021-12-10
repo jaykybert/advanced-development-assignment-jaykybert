@@ -15,11 +15,10 @@ function onAddToCart(id, name, price) {
         dataType: "json",
         success: function(cartContents) {
             var cart = document.getElementById("cart-content");
-
-
             tableBody = document.getElementById("table-body")
 
-            console.log(cartContents[0]['1'])
+
+            console.log(cartContents[0]);
         }
     });
 }

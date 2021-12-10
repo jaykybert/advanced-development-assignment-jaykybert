@@ -29,10 +29,71 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.environ.get('APP_SECRET_KEY')
 
+# Standard
+import datetime
+import os
+import json
+# Third-Party
+from bson.json_util import dumps
+from bson import BSON
+from dotenv import load_dotenv
+from pymongo import MongoClient
+
+
+# https://europe-west2-ad-assignment-21.cloudfunctions.net/mongo_db_payment
+
+
+def mongo_db_payment(user_id):
+    load_dotenv()
+
+    request_json = request.get_json(silent=True)
+
+    uid = user_id
+
+    mongo_user = os.environ.get('MONGO_DB_USERNAME')
+    mongo_pass = os.environ.get('MONGO_DB_PASSWORD')
+
+    client = MongoClient('mongodb+srv://{}:{}@advanced-development.25dxk.mongodb.net/ad-assignment?retryWrites=true&w=majority'.format(mongo_user, mongo_pass))
+
+    db = client['ad-assignment']
+    cart_collection = db['cart']
+
+    order_date = str(datetime.datetime.now())
+
+    # Update cart document
+    cart_collection.update_one({'uid': uid}, {'$set': {'order': {'status': 'Processed', 'date': order_date}}})
+    cursor = cart_collection.find_one({'uid': uid})
+    print(cursor)
+    print(type(cursor))
+    cursor_json = dumps(cursor)
+    print(cursor_json)
+
+    # Open orders, work out order id.
+    order_collection = db['orders']
+    order_count = order_collection.count_documents({})
+
+    new_order_id = 'o-' + str(order_count + 1)
+
+    cart_collection.insert_one({'oid': new_order_id})
+
+
+
+
+
+    return dumps(cursor)
+
+    # Todo delete basket.
+
 
 @app.route('/')
 def home():
+
     cart_json = None
+
+    cart_json = mongo_db_payment("YMU9OpJC1YcXX2Ix1nUF6WQAKTA2")
+
+
+    """
     if 'user' in session:
 
         req = requests.post(os.environ.get('SERVICE_MESH_URL'),
@@ -40,6 +101,7 @@ def home():
                             headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
         cart_json = req.content
         print(cart_json)
+    """
 
     return render_template('home.html', mongoTest=cart_json)
 
