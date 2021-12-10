@@ -26,7 +26,23 @@ def mongo_db_update_cart(request):
         collection = db['cart']
 
         user_cart = collection.find_one({'uid': uid})
-        user_cart['products'].append(product)
+
+        if user_cart['products'].length == 0:
+            # Just add it. Also add quantity to 1.
+            product['quantity'] = 1
+            user_cart['products'].append(product)
+
+        else:
+            # loop through products. If product ID matches, then increment quantity.
+            new_product = True
+            for item in user_cart['products']:
+                if product['id'] == item['id']:
+                    item['quantity'] = item['quantity'] + 1
+                    new_product = False
+
+            if new_product:
+                product['quantity'] = 1
+                user_cart['products'].append(product)
 
         collection.find_one_and_replace({'uid': uid}, user_cart)
 

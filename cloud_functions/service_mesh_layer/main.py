@@ -43,6 +43,13 @@ def service_mesh_layer(request):
                 headers={'Content-type': 'application/json', 'Accept': 'text/plain'}).content
         return json_data
 
+    elif mesh_source == 'mongo-db-get-orders':
+        service_url = os.environ.get('MONGO_DB_GET_ORDERS_URL')
+        json_data = requests.post(service_url,
+                        json={'uid': request_json['uid']},
+                        headers={'Content-type': 'application/json', 'Accept': 'text/plain'}).content
+        return json_data
+
     elif mesh_source == 'cloud-sql':
         service_url = os.environ.get('CLOUD_SQL_SERVICE_URL')
         json_data = requests.get(service_url).content

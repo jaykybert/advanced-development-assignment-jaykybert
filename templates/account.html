@@ -1,6 +1,57 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 class="display-4">My Account</h1>
-    <hr class="rounded"/>
+
+    {% if user %}
+        <h1 class="display-4">Hello, {{ user['name']}}</h1>
+
+        {% for order in user_orders %}
+            <div class="card order-card">
+                <div class="card-header">
+                    <h4 class="card-title">Order {{ order['order-id'] }}</h4>
+                    <h4 class="card-title">Status: {{ order['order']['status'] }}</h4>
+                    <h6 class="card-subtitle text-muted">Ordered: {{ order['order']['date'] }}</h6>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">
+                            {% for product in order['products'] %}
+                                <tr>
+                                    <td>{{ product['name'] }}</td>
+                                    <td>£{{ product['price']}}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                    </table>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <h6 class="card-subtitle text-muted">Shipping Address:</h6>
+                    {{ order['address']['address1']}}
+                    {% if order['address']['address2'] != '' %}
+                        <br/>
+                        {{ order['address']['address2']}}
+                    {% endif %}
+                    <br/>
+                    {{ order['address']['postcode']}}, {{ order['address']['country']}}
+                    <br/>
+                    {% if order['address']['mobile'] != '' %}
+                        Mobile: {{ order['address']['mobile']}}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+
+    {% else %}
+        <h4>To access your account, please log in.</h4>
+    {% endif %}
 {% endblock content %}

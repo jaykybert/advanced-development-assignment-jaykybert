@@ -14,10 +14,15 @@ from dotenv import load_dotenv
 
 # TODO: save product images somewhere (?)
 
-# TODO: Add product tracking (mongo?)
+# TODO: made order id the global object id? looks more authentic
 
-# TODO: On payment, get json object from mongo, move to another collection
-#           -> then delete the one from cart.
+# TODO: keep list structure for products, but make a qty field.
+#           -> with qty, also introduce a total price field (for each product, as well as overall?)
+
+# TODO: tests
+
+# TODO: commenting
+
 
 # https://google.github.io/styleguide/pyguide.html
 
@@ -59,26 +64,35 @@ def about():
 @app.route('/account', methods=['GET', 'POST'])
 def account():
     # Account access via post - order just made.
-    if request.form.get('address-line-1') is not None:
+    new_order = None
+    user_orders = None
+    signed_in = False
 
-        address = {
-            'address1': request.form.get('address-line-1'),
-            'address2': request.form.get('address-line-2'),
-            'postcode': request.form.get('postcode'),
-            'country': request.form.get('country'),
-            'mobile': request.form.get('mobile')
-        }
+    if 'user' in session:
+        if request.form.get('address-line-1') is not None:
+
+            address = {
+                'address1': request.form.get('address-line-1'),
+                'address2': request.form.get('address-line-2'),
+                'postcode': request.form.get('postcode'),
+                'country': request.form.get('country'),
+                'mobile': request.form.get('mobile')
+            }
+
+            req = requests.post(os.environ.get('SERVICE_MESH_URL'),
+                                json={'source': 'mongo-db-payment', 'uid': session['user']['uid'], 'address': address},
+                                headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
+
+            new_order = req.json()
 
         req = requests.post(os.environ.get('SERVICE_MESH_URL'),
-                            json={'source': 'mongo-db-payment', 'uid': session['user']['uid'], 'address': address},
+                            json={'source': 'mongo-db-get-orders', 'uid': session['user']['uid']},
                             headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
 
-        results = req.json()
-        print(results)
-    else:
-        print('No order made.')
+        user_orders = req.json()
+        signed_in = True
 
-    return render_template('account.html')
+    return render_template('account.html', new_order=new_order, user_orders=user_orders, user=session['user'])
 
 
 # Request Routes

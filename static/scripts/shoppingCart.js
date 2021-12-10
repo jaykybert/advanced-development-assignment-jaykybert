@@ -35,23 +35,29 @@ function onViewCart() {
 
         success: function(cartContents) {
             var cart = JSON.parse(cartContents)
-            var cartTable = document.getElementById('table-body')
-            cartTable.innerHTML = "";
-            console.log(cart[0]);
-            var totalPrice = 0;
-            for(var i=0; i < cart[0]['products'].length; i++) {
-                totalPrice += parseFloat(cart[0]['products'][i]['price']);
+            var cartTable = document.getElementById('table-body');
 
-                cartTable.innerHTML += "<tr>" +
-                    "<td>" + cart[0]['products'][i]['name'] + "</td>" +
-                    "<td>£" + cart[0]['products'][i]['price'] + "</td>" +
-                    "</tr>"
-            }
-            if(totalPrice !== 0) {
-                cartTable.innerHTML += "<tr>" +
-                    "<td></td>" +
-                    "<td>Total: £" + totalPrice + "</td>" +
-                    "</tr>"
+            var cartModal = document.getElementById('cart-content');
+            if (cart[0]['products'].length > 0) {
+                cartModal.style.display = "block";
+
+                cartTable.innerHTML = "";
+                console.log(cart[0]);
+                var totalPrice = 0;
+                for(var i=0; i < cart[0]['products'].length; i++) {
+                    totalPrice += parseFloat(cart[0]['products'][i]['price']);
+
+                    cartTable.innerHTML += "<tr>" +
+                        "<td>" + cart[0]['products'][i]['name'] + "</td>" +
+                        "<td>£" + cart[0]['products'][i]['price'] + "</td>" +
+                        "</tr>"
+                }
+                if(totalPrice !== 0) {
+                    cartTable.innerHTML += "<tr>" +
+                        "<td></td>" +
+                        "<td>Total: £" + totalPrice + "</td>" +
+                        "</tr>"
+                }
             }
         }
     });

@@ -99,3 +99,10 @@ body {
     font-style: italic;
     margin-top: -5px;
 }
+
+/*
+ * My Account Page
+ */
+.order-card {
+    margin: 10px;
+}
