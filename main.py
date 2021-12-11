@@ -1,7 +1,7 @@
 # Local
 import os
 # Third-Party
-from flask import Flask, redirect, render_template, url_for, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session
 import requests
 # Application
 from dotenv import load_dotenv
@@ -16,8 +16,7 @@ from dotenv import load_dotenv
 
 # TODO: made order id the global object id? looks more authentic
 
-# TODO: keep list structure for products, but make a qty field.
-#           -> with qty, also introduce a total price field (for each product, as well as overall?)
+# TODO: parcel tracking
 
 # TODO: tests
 
@@ -88,7 +87,7 @@ def account():
 
         print(user_orders)
 
-    return render_template('account.html', user_orders=user_orders, user=session['user'])
+    return render_template('account.html', user_orders=user_orders, user=session.get('user', None))
 
 
 # Request Routes
@@ -99,16 +98,23 @@ def cart():
 
         cart_data = request.get_json()
 
-        req = requests.post(os.environ.get('SERVICE_MESH_URL'),
-                            json={'source': 'mongo-db-update-cart', 'uid': session['user']['uid'], 'product': cart_data},
-                            headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
-        cart_json = req.content
+        if 'action' in cart_data:
+            print('deleting')
+            req = requests.post(os.environ.get('SERVICE_MESH_URL'),
+                                json={'source': 'mongo-db-delete-cart', 'uid': session['user']['uid']},
+                                headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
+            cart_json = req.content
+
+        else:
+            req = requests.post(os.environ.get('SERVICE_MESH_URL'),
+                                json={'source': 'mongo-db-update-cart', 'uid': session['user']['uid'], 'product': cart_data},
+                                headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
+            cart_json = req.content
 
     if request.method == 'GET' and 'user' in session:
-        print('getting')
         req = requests.post(os.environ.get('SERVICE_MESH_URL'),
-                            json={'source': 'mongo-db-get-cart', 'uid': session['user']['uid']},
-                            headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
+                                json={'source': 'mongo-db-get-cart', 'uid': session['user']['uid']},
+                                headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
         cart_json = req.content
 
     return cart_json

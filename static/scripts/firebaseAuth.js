@@ -5,6 +5,8 @@ window.addEventListener('load', function () {
   document.getElementById('logout-button').onclick = function () {
     firebase.auth().signOut();
 
+    window.location.href='products';
+
     // Remove 'Add to Cart' buttons.
     var products = document.getElementsByClassName("add-to-cart");
     for(var i=0; i < products.length; i++) {
@@ -13,11 +15,12 @@ window.addEventListener('load', function () {
 
     document.getElementById('login-button').style.display="block";
 
+
   };
 
   // FirebaseUI config.
   var uiConfig = {
-    signInSuccessUrl: '/account',
+    signInSuccessUrl: '/products',
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.EmailAuthProvider.PROVIDER_ID,
@@ -72,7 +75,6 @@ window.addEventListener('load', function () {
         contentType: "application/json",
         dataType: "json",
         success: function(result) {
-            console.log('success!');
         }
     });
 

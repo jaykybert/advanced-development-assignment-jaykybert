@@ -19,6 +19,28 @@ function onAddToCart(id, name, price) {
 }
 
 
+function clearCart() {
+    console.log('clear');
+        $.ajax({
+        type: "POST",
+        url: "/cart",
+        data: JSON.stringify({"action": "clear"}),
+        contentType: "application/json",
+        dataType: "json",
+        success: function(cartContents) {
+           // reset modal
+            var cartModal = document.getElementById("cart-content")
+            cartModal.style.display="none";
+
+            // table inner html == "";
+            // hide shipping address stuff
+            // display buttons?
+        }
+    });
+
+}
+
+
 function continueWithAddress() {
     var address = document.getElementById("shipping-address");
     address.style.display = "block";
