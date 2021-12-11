@@ -1,4 +1,3 @@
-
 # Standard
 import datetime
 import os
@@ -29,8 +28,11 @@ def mongo_db_payment(request):
 
         # Update cart document
         cart_collection = db['cart']
-        order_date = str(datetime.datetime.now())
-        cart_collection.update_one({'uid': uid}, {'$set': {'order': {'status': 'Processed', 'date': order_date}}})
+        order_date = datetime.datetime.now()
+
+        order_date_formatted = order_date.strftime('%d %b %Y at %H:%M')
+
+        cart_collection.update_one({'uid': uid}, {'$set': {'order': {'status': 'Processed', 'date': order_date_formatted}}})
         cart_json = cart_collection.find_one({'uid': uid})
 
         # Delete cart
@@ -44,6 +46,12 @@ def mongo_db_payment(request):
 
         cart_json['order-id'] = new_order_id
         cart_json['address'] = address
+
+        total_price = 0
+        for product in cart_json['products']:
+            total_price += product['total-price']
+
+        cart_json['total-price'] = total_price
 
         # Insert the cart json + an order-id into the order collection.
         order_collection.insert_one(cart_json)

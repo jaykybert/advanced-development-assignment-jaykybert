@@ -64,10 +64,8 @@ def about():
 @app.route('/account', methods=['GET', 'POST'])
 def account():
     # Account access via post - order just made.
-    new_order = None
-    user_orders = None
-    signed_in = False
 
+    user_orders = None
     if 'user' in session:
         if request.form.get('address-line-1') is not None:
 
@@ -78,21 +76,19 @@ def account():
                 'country': request.form.get('country'),
                 'mobile': request.form.get('mobile')
             }
-
-            req = requests.post(os.environ.get('SERVICE_MESH_URL'),
+            requests.post(os.environ.get('SERVICE_MESH_URL'),
                                 json={'source': 'mongo-db-payment', 'uid': session['user']['uid'], 'address': address},
                                 headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
-
-            new_order = req.json()
 
         req = requests.post(os.environ.get('SERVICE_MESH_URL'),
                             json={'source': 'mongo-db-get-orders', 'uid': session['user']['uid']},
                             headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
 
         user_orders = req.json()
-        signed_in = True
 
-    return render_template('account.html', new_order=new_order, user_orders=user_orders, user=session['user'])
+        print(user_orders)
+
+    return render_template('account.html', user_orders=user_orders, user=session['user'])
 
 
 # Request Routes
@@ -100,6 +96,7 @@ def account():
 def cart():
     cart_json = {}
     if request.method == 'POST' and 'user' in session:
+
         cart_data = request.get_json()
 
         req = requests.post(os.environ.get('SERVICE_MESH_URL'),

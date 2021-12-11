@@ -3,7 +3,7 @@ function onAddToCart(id, name, price) {
     var products = {
         "id": id,
         "name": name,
-        "price": price
+        "price": parseFloat(price)
     };
 
     $.ajax({
@@ -45,17 +45,21 @@ function onViewCart() {
                 console.log(cart[0]);
                 var totalPrice = 0;
                 for(var i=0; i < cart[0]['products'].length; i++) {
-                    totalPrice += parseFloat(cart[0]['products'][i]['price']);
+                    totalPrice += parseFloat(cart[0]['products'][i]['total-price']);
 
                     cartTable.innerHTML += "<tr>" +
                         "<td>" + cart[0]['products'][i]['name'] + "</td>" +
                         "<td>£" + cart[0]['products'][i]['price'] + "</td>" +
+                        "<td>" + cart[0]['products'][i]['quantity'] + "</td>" +
+                        "<td>£" + cart[0]['products'][i]['total-price'] + "</td>" +
                         "</tr>"
                 }
                 if(totalPrice !== 0) {
                     cartTable.innerHTML += "<tr>" +
                         "<td></td>" +
-                        "<td>Total: £" + totalPrice + "</td>" +
+                        "<td></td>" +
+                        "<td>Total:</td>" +
+                        "<td>£" + totalPrice + "</td>" +
                         "</tr>"
                 }
             }

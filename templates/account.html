@@ -6,10 +6,13 @@
         <h1 class="display-4">Hello, {{ user['name']}}</h1>
 
         {% for order in user_orders %}
+
+            <hr class="rounded"/>
+
             <div class="card order-card">
                 <div class="card-header">
-                    <h4 class="card-title">Order {{ order['order-id'] }}</h4>
-                    <h4 class="card-title">Status: {{ order['order']['status'] }}</h4>
+                    <h5 class="card-title">Order {{ order['order-id'] }}</h5>
+                    <h4 class="card-title" style="font-weight:bold;">Status: {{ order['order']['status'] }}</h4>
                     <h6 class="card-subtitle text-muted">Ordered: {{ order['order']['date'] }}</h6>
                 </div>
 
@@ -19,6 +22,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Product</th>
+                                    <th scope="col">Unit Price</th>
+                                    <th scope="col">Qty</th>
                                     <th scope="col">Price</th>
                                 </tr>
                             </thead>
@@ -27,8 +32,18 @@
                                 <tr>
                                     <td>{{ product['name'] }}</td>
                                     <td>£{{ product['price']}}</td>
+                                    <td>{{ product['quantity']}}</td>
+                                    <td>£{{ product['total-price']}}</td>
                                 </tr>
                             {% endfor %}
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="font-weight:bold;">Total</td>
+                                    <td style="font-weight:bold;">£{{ order['total-price']}}</td>
+                                </tr>
+
+
                             </tbody>
                     </table>
                     </div>
