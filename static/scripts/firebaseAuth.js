@@ -1,7 +1,9 @@
-
 'use strict';
 
+
 window.addEventListener('load', function () {
+
+  // Redirect on logout, hide add to basket buttons, display login button.
   document.getElementById('logout-button').onclick = function () {
     firebase.auth().signOut();
 
@@ -12,10 +14,7 @@ window.addEventListener('load', function () {
     for(var i=0; i < products.length; i++) {
       products[i].style.display = "none";
     }
-
     document.getElementById('login-button').style.display="block";
-
-
   };
 
   // FirebaseUI config.
@@ -29,60 +28,58 @@ window.addEventListener('load', function () {
 
   firebase.auth().onAuthStateChanged(function (user) {
 
-    // Signed In
+    // User logged in.
     if (user) {
+
+      // Display 'Add to Cart' buttons.
       var products = document.getElementsByClassName("add-to-cart");
       for(var i=0; i < products.length; i++) {
         products[i].style.display = "block";
       }
 
+      // Update DOM elements.
       document.getElementById("logout-button").style.display="block";
       document.getElementById("login-button").style.display="none";
       document.getElementById("account-nav-item").style.display = "block";
       document.getElementById("shopping-cart").style.display = "block";
 
       // Update back-end session.
-        $.ajax({
-        type: "POST",
-        url: "/login",
-        data: JSON.stringify({ "uid": user.uid,
-                                    "name": user.displayName,
-                                    "email": user.email}),
-        contentType: "application/json",
-        dataType: "json",
-        success: function(result) {
-            console.log('success!');
-        }
-    });
-
-
+      $.ajax({
+          type: "POST",
+          url: "/login",
+          data: JSON.stringify({ "uid": user.uid,
+                                      "name": user.displayName,
+                                      "email": user.email}),
+          contentType: "application/json",
+          dataType: "json"
+      });
     }
-    // Signed Out
+
+    // User logged out.
     else {
-      // Initialize the FirebaseUI Widget using Firebase.
+
       var ui = new firebaseui.auth.AuthUI(firebase.auth());
-      // Show the Firebase login button.
+
+      // Update DOM elements
       document.getElementById("logout-button").style.display="none";
       document.getElementById("account-nav-item").style.display = "none";
       document.getElementById("shopping-cart").style.display = "none";
+
       ui.start('#firebaseui-auth-container', uiConfig);
 
-                // Update back-end session.
-    $.ajax({
-        type: "POST",
-        url: "/logout",
-        data: JSON.stringify({ "logged-out": true}),
-        contentType: "application/json",
-        dataType: "json",
-        success: function(result) {
-        }
-    });
-
-
-
-
+      // Update back-end session.
+      $.ajax({
+          type: "POST",
+          url: "/logout",
+          data: JSON.stringify({ "logged-out": true}),
+          contentType: "application/json",
+          dataType: "json",
+      });
     }
-  }, function (error) {
+  },
+
+  // Authentication Error
+  function (error) {
     console.warn(error);
     alert('Unable to log in: ' + error)
   });

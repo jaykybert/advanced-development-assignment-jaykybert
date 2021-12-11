@@ -1,12 +1,12 @@
-const firebaseConfig = {
-    apiKey: "AIzaSyBjj680whocrHSvpfwrUN7uX8Qz00KVpiI",
-    authDomain: "ad-assignment-21.firebaseapp.com",
-    projectId: "ad-assignment-21",
-    storageBucket: "ad-assignment-21.appspot.com",
-    messagingSenderId: "575699106331",
-    appId: "1:575699106331:web:6a80779f1c8a92c97216be",
-    measurementId: "G-2SJSTKWGBY"
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyAb7SXWBnjP1oAbHZOyaBoxC0YJf40nVok",
+    authDomain: "ad-assignment-334817.firebaseapp.com",
+    projectId: "ad-assignment-334817",
+    storageBucket: "ad-assignment-334817.appspot.com",
+    messagingSenderId: "517026741602",
+    appId: "1:517026741602:web:9874ef1e41f5d8806c003b",
+    measurementId: "${config.measurementId}"
+  };
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-firebase.analytics();
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);

@@ -1,3 +1,6 @@
+/*
+ * General Styling
+ */
 body {
     padding-top: 5rem;
     background-color: #cbdddf;
@@ -38,8 +41,6 @@ body {
 /*
  * Cart Modal
  */
-
-
 .address-field {
     margin: 5px;
 }
@@ -57,11 +58,6 @@ body {
  /*
   * Products Page
   */
-
-.products {
-
-}
-
 .product-card {
     margin-bottom: 30px;
     margin-left: 5px;
@@ -70,24 +66,23 @@ body {
     float: left;
 }
 
-#productImage, #productDesc, #productPrice {
+#product-image, #product-desc, #product-price {
     display: inline-block;
-
 }
-#productImage {
+
+#product-image {
     border: 1px;
 }
 
-#productDesc {
+#product-desc {
     margin-left: 10px;
     vertical-align: top;
     width: 40%;
 }
 
-#productPrice {
+#product-price {
     float: right;
 }
-
 
 .product-price-text {
     font-size: 1.5rem;
@@ -95,14 +90,38 @@ body {
     margin: 0;
 
 }
+
 .product-delivery-text {
     font-style: italic;
     margin-top: -5px;
 }
+
 
 /*
  * My Account Page
  */
 .order-card {
     margin: 10px;
+}
+
+.status-box {
+    border: 3px solid black;
+    display: inline-block;
+    height: 35px;
+    width: 20%;
+    padding: 5px;
+}
+
+.status-complete {
+    background:#1f8302;
+}
+
+.status-complete-text {
+    font-weight: bold;
+    color: #fff;
+}
+
+.status-arrow {
+    border: 2px dashed black;
+    display: inline-block;
 }

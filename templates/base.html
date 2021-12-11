@@ -14,7 +14,6 @@
     <!-- Custom Styling -->
     <link href="../static/css/styles.css" rel="stylesheet"/>
 
-
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css">
@@ -52,41 +51,40 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('products') }}">Products</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('about') }}">About Us</a>
                     </li>
-
                     <li id="account-nav-item" class="nav-item" style="display:block;">
                         <a class="nav-link" href="{{ url_for('account')}}">My Account</a>
                     </li>
                 </ul>
-
+                <!-- Shopping Cart and Login/Logout Buttons -->
                 <div class="ms-auto">
-                        <div id="shopping-cart" class="shopping-cart" style="display:none;">
-                            <input type="image" src="../static/assets/shopping_cart.png" width="50" height="40" class="btn" alt="Shopping Cart"
-                            onclick="onViewCart()" data-toggle="modal" data-target="#cartModal"/>
-                        </div>
+                    <div id="shopping-cart" class="shopping-cart" style="display:none;">
+                        <input type="image" src="../static/assets/shopping_cart.png" width="50" height="40" class="btn" alt="Shopping Cart"
+                               onclick="onViewCart()" data-toggle="modal" data-target="#cartModal"/>
+                    </div>
 
-                        <form class="nav-login-div" style="float:right;">
-                            <button id="login-button" class="btn btn-outline-primary nav-login-button" type="button"
-                                    data-toggle="modal" data-target="#loginModal">Login</button>
-                            <button id="logout-button" class="btn btn-outline-danger nav-login-button" style="display: none;"
-                                    type="button">Logout</button>
-                        </form>
+                    <form class="nav-login-div" style="float:right;">
+                        <button id="login-button" class="btn btn-outline-primary nav-login-button" type="button"
+                                data-toggle="modal" data-target="#loginModal">Login</button>
+                        <button id="logout-button" class="btn btn-outline-danger nav-login-button" style="display: none;"
+                                type="button">Logout</button>
+                    </form>
                 </div>
             </div>
         </nav>
     </div>
 
-    <div class="container">
 
-        <!-- Page-specific Content -->
+    <div class="container">
+        <!-- Page-specific content -->
         <main role="main" class="container">
             {% block content %}
             {% endblock content %}
         </main>
     </div>
+
 
     <!-- Login Modal -->
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -132,14 +130,11 @@
                 </table>
 
                 <button type="button" id="clear-cart-button" class="btn btn-danger" onclick="clearCart()">Clear Cart</button>
-
                 <hr class="rounded"/>
-
-
                 <button type="button" id="continue-button" class="btn btn-warning" onclick="continueWithAddress()">Continue</button>
 
                 <div id="shipping-address" style="display:none;">
-                <form action="{{ url_for('account')}}" method="post" >
+                    <form action="{{ url_for('account')}}" method="post" >
                         <h6 style="text-align: center; font-weight: bold;">Shipping Address</h6>
                         <input name="address-line-1" type="text" class="form-control address-field" placeholder="Address Line 1" required>
                         <input name="address-line-2" type="text" class="form-control address-field" placeholder="Address Line 2 (optional)" >
@@ -154,15 +149,12 @@
                         </div>
 
                         <input name="mobile" type="text" class="form-control address-field" placeholder="Mobile (optional)">
-
                         <br/>
-
                         <hr class="rounded"/>
-
                         <div>
                             <button type="submit" id="payment-button" class="btn btn-success">Confirm Payment</button>
                         </div>
-                </form>
+                    </form>
                 </div>
             </div>
           </div>
@@ -170,7 +162,7 @@
       </div>
     </div>
 
-    <!-- Bootstrap JavaScript (note: Cannot use bundled script, prevents modal functionality) -->
+    <!-- Bootstrap JavaScript (note: cannot use bundled script, prevents modal functionality.) -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
             integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -187,6 +179,7 @@
     <script src="../static/scripts/shoppingCart.js"></script>
 </body>
 
+<!-- Page-specific scripts -->
 {% block end %}
 {% endblock end %}
 

@@ -14,22 +14,17 @@
                 </div>
 
                 <div class="card-body">
-                    <div id="productImage">
+                    <div id="product-image">
                         <img src="../static/assets/default_img.bmp" width="200" height="200"/>
                     </div>
-                    <div id="productDesc">
+                    <div id="product-desc">
                         <p class="card-text">{{ product[2] }}</p>
                     </div>
 
-                    <div id="productPrice">
+                    <div id="product-price">
                         <p class="card-text product-price-text">
                             £{{ product[3] }}
                         </p>
-                        {% if product[4] > 0 %}
-                            <p class="card-text product-delivery-text">+£{{ product[4] }} shipping</p>
-                        {% else %}
-                            <p class="card-text product-delivery-text">free shipping</p>
-                        {% endif %}
                     </div>
                 </div>
                 <div class="card-footer">

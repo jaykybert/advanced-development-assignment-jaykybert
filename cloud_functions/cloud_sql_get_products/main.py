@@ -1,14 +1,20 @@
-# Standard
-import os
+# Standard Libraries
 import json
-# Third-Party
+import os
+# Third-Party Libraries
 import pymysql
 from dotenv import load_dotenv
 
 
-# https://europe-west2-ad-assignment-21.cloudfunctions.net/cloud_sql_service
+def cloud_sql_get_products(request):
+    """
+    Connect to the Cloud SQL database, return all products.
 
-def cloud_sql_service(request):
+    Endpoint:
+
+    :param request: A Request object (unused)
+    :return: All products in the PRODUCT table
+    """
 
     load_dotenv()
 
