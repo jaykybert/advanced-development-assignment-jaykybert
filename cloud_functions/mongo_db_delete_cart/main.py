@@ -32,4 +32,7 @@ def mongo_db_delete_cart(request):
         collection = db['cart']
         collection.delete_one({'uid': uid})
 
+        cart_structure = {'uid': uid, 'products': []}
+        collection.insert_one(cart_structure)
+
     return {}

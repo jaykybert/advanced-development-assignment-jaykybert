@@ -127,6 +127,7 @@ def cart():
 
     # Get Request - Get Cart
     if request.method == 'GET' and 'user' in session:
+
         req = requests.post(os.environ.get('SERVICE_MESH_URL'),
                             json={'source': 'mongo-db-get-cart', 'uid': session['user']['uid']},
                             headers={'Content-type': 'application/json', 'Accept': 'text/plain'})

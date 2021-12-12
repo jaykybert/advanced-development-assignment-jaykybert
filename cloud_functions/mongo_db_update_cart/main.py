@@ -28,7 +28,7 @@ def mongo_db_update_cart(request):
         mongo_user = os.environ.get('MONGO_DB_USERNAME')
         mongo_pass = os.environ.get('MONGO_DB_PASSWORD')
 
-        client = MongoClient('mongodb+srv://{}:{}@advanced-development.25dxk.mongodb.net/' +
+        client = MongoClient('mongodb+srv://{}:{}@advanced-development.25dxk.mongodb.net/'
                              'ad-assignment?retryWrites=true&w=majority'.format(mongo_user, mongo_pass))
 
         db = client['ad-assignment']
