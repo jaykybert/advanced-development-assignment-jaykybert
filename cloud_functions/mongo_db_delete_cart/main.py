@@ -9,7 +9,7 @@ def mongo_db_delete_cart(request):
     """
     Using the request JSON, delete the user's cart.
 
-    Endpoint:
+    Endpoint: https://europe-west2-assignment-ad.cloudfunctions.net/mongo_db_delete_cart
 
     :param request: A request object
     :return: An empty object

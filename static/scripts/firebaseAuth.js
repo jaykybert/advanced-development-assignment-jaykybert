@@ -1,6 +1,5 @@
 'use strict';
 
-
 window.addEventListener('load', function () {
 
   // Redirect on logout, hide add to basket buttons, display login button.
@@ -84,3 +83,6 @@ window.addEventListener('load', function () {
     alert('Unable to log in: ' + error)
   });
 });
+
+
+

@@ -17,7 +17,6 @@
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css">
-    <script src="../static/scripts/firebaseAuth.js"></script>
 
     <!-- For page-specific links -->
     {% block head %}
@@ -173,7 +172,21 @@
     <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-analytics.js"></script>
-    <script src="../static/scripts/firebaseConfig.js"></script>
+
+    <script>
+        const firebaseConfig = {
+                apiKey: "AIzaSyCNxKxjklcc0VNwy6Ih4KaRfx_LSpsOZjM",
+                authDomain: "assignment-ad.firebaseapp.com",
+                projectId: "assignment-ad",
+                storageBucket: "assignment-ad.appspot.com",
+                messagingSenderId: "57713440798",
+                appId: "1:57713440798:web:bd12b4dcea131d2a3bd60f",
+                measurementId: "G-RFQZEX8D2Z"
+            };
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics()
+    </script>
+    <script src="../static/scripts/firebaseAuth.js"></script>
 
     <!-- Cart Logic -->
     <script src="../static/scripts/shoppingCart.js"></script>

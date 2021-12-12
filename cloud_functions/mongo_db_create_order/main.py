@@ -12,7 +12,7 @@ def mongo_db_create_order(request):
     Using the request JSON, delete the user's cart, add order date and status,
     and save the updated cart object into the orders collection.
 
-    Endpoint:
+    Endpoint: https://europe-west2-assignment-ad.cloudfunctions.net/mongo_db_create_order
 
     :param request: A Request object
     :return: The newly-created order JSON object

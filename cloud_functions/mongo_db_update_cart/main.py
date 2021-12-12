@@ -11,7 +11,7 @@ def mongo_db_update_cart(request):
     Using JSON from request add the product to the user's cart, adjust
     product quantity and total price, and return the cart contents.
 
-    Endpoint:
+    Endpoint: https://europe-west2-assignment-ad.cloudfunctions.net/mongo_db_update_cart
 
     :param request: A Request object
     :return: The newly-updated cart as JSON

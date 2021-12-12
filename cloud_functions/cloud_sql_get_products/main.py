@@ -10,7 +10,7 @@ def cloud_sql_get_products(request):
     """
     Connect to the Cloud SQL database, return all products.
 
-    Endpoint:
+    Endpoint: https://europe-west2-assignment-ad.cloudfunctions.net/cloud_sql_get_products
 
     :param request: A Request object (unused)
     :return: All products in the PRODUCT table

@@ -11,7 +11,7 @@ def service_mesh_layer(request):
     Using JSON from request select the appropriate cloud function to call,
     call it, and return the json returned from it.
 
-    Endpoint:
+    Endpoint: https://europe-west2-assignment-ad.cloudfunctions.net/service_mesh_layer
 
     :param request: A Request object
     :return: JSON data from the selected service

@@ -11,7 +11,7 @@ def mongo_db_get_cart(request):
     Using the request JSON, get the user's cart and return it.
     If one doesn't exist, create an empty cart and return it.
 
-    Endpoint:
+    Endpoint: https://europe-west2-assignment-ad.cloudfunctions.net/mongo_db_get_cart
 
     :param request: A request object
     :return: The user's cart as JSON

@@ -11,7 +11,7 @@ def mongo_db_get_orders(request):
     Using the request JSON, get all of a user's orders from the
     orders collection.
 
-    Endpoint:
+    Endpoint: https://europe-west2-assignment-ad.cloudfunctions.net/mongo_db_get_orders
 
     :param request: A Request object
     :return: All of a user's orders in JSON
