@@ -13,7 +13,7 @@ def mongo_db_get_cart(request):
 
     Endpoint: https://europe-west2-assignment-ad.cloudfunctions.net/mongo_db_get_cart
 
-    :param request: A request object
+    :param request: A Request object
     :return: The user's cart as JSON
     """
 

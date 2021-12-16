@@ -11,7 +11,7 @@ def mongo_db_delete_cart(request):
 
     Endpoint: https://europe-west2-assignment-ad.cloudfunctions.net/mongo_db_delete_cart
 
-    :param request: A request object
+    :param request: A Request object
     :return: An empty object
     """
 
