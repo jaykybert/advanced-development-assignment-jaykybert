@@ -6,12 +6,6 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request, jsonify, session
 
 
-# TODO: Customise authentication login - store address data in firestore.
-#           -> Also include user type in firestore
-#           -> See https://medium.com/@bariskarapinar/firebase-authentication-web-app-javascript-3165ebc92b68
-# TODO: save product images somewhere (?)
-# TODO: tests
-
 load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.environ.get('APP_SECRET_KEY')
