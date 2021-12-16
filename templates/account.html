@@ -6,194 +6,198 @@
     {% if user %}
         <h1 class="display-4">Hello, {{ user['name']}}</h1>
 
-        <!-- Display a card for each of the user's orders. -->
-        {% for order in user_orders %}
-            <hr class="rounded"/>
-
-            <div class="card order-card">
-                <div class="card-header">
-                    <h5 class="card-title">Order No. {{ order['order-id'] }}</h5>
-                    <h4 class="card-title" style="font-weight:bold;">Status: {{ order['order']['status'] }}</h4>
-                    <h6 class="card-subtitle text-muted">Ordered: {{ order['order']['date'] }}</h6>
-                </div>
-                <div class="card-body">
-                    <div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Unit Price</th>
-                                    <th scope="col">Qty</th>
-                                    <th scope="col">Price</th>
-                                </tr>
-                            </thead>
-                            <tbody id="table-body">
-                            {% for product in order['products'] %}
-                                <tr>
-                                    <td>{{ product['name'] }}</td>
-                                    <td>£{{ product['price']}}</td>
-                                    <td>{{ product['quantity']}}</td>
-                                    <td>£{{ product['total-price']}}</td>
-                                </tr>
-                            {% endfor %}
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td style="font-weight:bold;">Total</td>
-                                    <td style="font-weight:bold;">£{{ order['total-price']}}</td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <hr class="rounded"/>
-
-                    <!-- Tracking Status -->
-                    {% if order['order']['status'] == 'Processed' %}
-                        <div>
-                            <div class="status-box status-complete">
-                                <h6 class="card-subtitle status-complete-text" style="text-align:center;">Processed</h6>
-                            </div>
-
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-
-                            <div class="status-box">
-                                <h6 class="card-subtitle text-muted" style="text-align:center;">Dispatched</h6>
-                            </div>
-
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-
-                            <div class="status-box">
-                                <h6 class="card-subtitle text-muted" style="text-align:center;">In Transit</h6>
-                            </div>
-
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-
-                            <div class="status-box">
-                                <h6 class="card-subtitle text-muted">Delivered</h6>
-                            </div>
-                        </div>
-                    {% elif order['order']['status'] == 'Dispatched' %}
-                        <div>
-                            <div class="status-box status-complete">
-                                <h6 class="card-subtitle status-complete-text" style="text-align:center;">Processed</h6>
-                            </div>
-
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-
-                            <div class="status-box status-complete">
-                                <h6 class="card-subtitle status-complete-text" style="text-align:center;">Dispatched</h6>
-                            </div>
-
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-
-                            <div class="status-box">
-                                <h6 class="card-subtitle text-muted" style="text-align:center;">In Transit</h6>
-                            </div>
-
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-
-                            <div class="status-box">
-                                <h6 class="card-subtitle text-muted">Delivered</h6>
-                            </div>
-                        </div>
-                    {% elif order['order']['status'] == 'In Transit' %}
-                        <div>
-                            <div class="status-box status-complete">
-                                <h6 class="card-subtitle status-complete-text" style="text-align:center;">Processed</h6>
-                            </div>
-
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-
-                            <div class="status-box status-complete">
-                                <h6 class="card-subtitle status-complete-text" style="text-align:center;">Dispatched</h6>
-                            </div>
-
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-
-                            <div class="status-box status-complete">
-                                <h6 class="card-subtitle status-complete-text" style="text-align:center;">In Transit</h6>
-                            </div>
-
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-
-                            <div class="status-box">
-                                <h6 class="card-subtitle text-muted">Delivered</h6>
-                            </div>
-                        </div>
-                    {% elif order['order']['status'] == 'Delivered' %}
-                        <div>
-                            <div class="status-box status-complete">
-                                <h6 class="card-subtitle status-complete-text" style="text-align:center;">Processed</h6>
-                            </div>
-
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-
-                            <div class="status-box status-complete">
-                                <h6 class="card-subtitle status-complete-text" style="text-align:center;">Dispatched</h6>
-                            </div>
-
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-
-                            <div class="status-box status-complete">
-                                <h6 class="card-subtitle status-complete-text" style="text-align:center;">In Transit</h6>
-                            </div>
-
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-                            <div class="status-arrow"></div>
-
-                            <div class="status-box status-complete">
-                                <h6 class="card-subtitle status-complete-text">Delivered</h6>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div>
-                            <h6 class="card-subtitle text-muted">Error retrieving tracking information.</h6>
-                        </div>
-                    {% endif %}
-                </div>
-
+        {% if user_orders|length == 0 %}
+            <p>You have no orders.</p>
+        {% else %}
+            <!-- Display a card for each of the user's orders. -->
+            {% for order in user_orders %}
                 <hr class="rounded"/>
 
-                <div class="card-footer">
-                    <h6 class="card-subtitle text-muted">Shipping Address:</h6>
-                    {{ order['address']['address1']}}
-                    {% if order['address']['address2'] != '' %}
+                <div class="card order-card">
+                    <div class="card-header">
+                        <h5 class="card-title">Order No. {{ order['order-id'] }}</h5>
+                        <h4 class="card-title" style="font-weight:bold;">Status: {{ order['order']['status'] }}</h4>
+                        <h6 class="card-subtitle text-muted">Ordered: {{ order['order']['date'] }}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Product</th>
+                                        <th scope="col">Unit Price</th>
+                                        <th scope="col">Qty</th>
+                                        <th scope="col">Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body">
+                                {% for product in order['products'] %}
+                                    <tr>
+                                        <td>{{ product['name'] }}</td>
+                                        <td>£{{ product['price']}}</td>
+                                        <td>{{ product['quantity']}}</td>
+                                        <td>£{{ product['total-price']}}</td>
+                                    </tr>
+                                {% endfor %}
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="font-weight:bold;">Total</td>
+                                        <td style="font-weight:bold;">£{{ order['total-price']}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr class="rounded"/>
+
+                        <!-- Tracking Status -->
+                        {% if order['order']['status'] == 'Processed' %}
+                            <div>
+                                <div class="status-box status-complete">
+                                    <h6 class="card-subtitle status-complete-text" style="text-align:center;">Processed</h6>
+                                </div>
+
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+
+                                <div class="status-box">
+                                    <h6 class="card-subtitle text-muted" style="text-align:center;">Dispatched</h6>
+                                </div>
+
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+
+                                <div class="status-box">
+                                    <h6 class="card-subtitle text-muted" style="text-align:center;">In Transit</h6>
+                                </div>
+
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+
+                                <div class="status-box">
+                                    <h6 class="card-subtitle text-muted">Delivered</h6>
+                                </div>
+                            </div>
+                        {% elif order['order']['status'] == 'Dispatched' %}
+                            <div>
+                                <div class="status-box status-complete">
+                                    <h6 class="card-subtitle status-complete-text" style="text-align:center;">Processed</h6>
+                                </div>
+
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+
+                                <div class="status-box status-complete">
+                                    <h6 class="card-subtitle status-complete-text" style="text-align:center;">Dispatched</h6>
+                                </div>
+
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+
+                                <div class="status-box">
+                                    <h6 class="card-subtitle text-muted" style="text-align:center;">In Transit</h6>
+                                </div>
+
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+
+                                <div class="status-box">
+                                    <h6 class="card-subtitle text-muted">Delivered</h6>
+                                </div>
+                            </div>
+                        {% elif order['order']['status'] == 'In Transit' %}
+                            <div>
+                                <div class="status-box status-complete">
+                                    <h6 class="card-subtitle status-complete-text" style="text-align:center;">Processed</h6>
+                                </div>
+
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+
+                                <div class="status-box status-complete">
+                                    <h6 class="card-subtitle status-complete-text" style="text-align:center;">Dispatched</h6>
+                                </div>
+
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+
+                                <div class="status-box status-complete">
+                                    <h6 class="card-subtitle status-complete-text" style="text-align:center;">In Transit</h6>
+                                </div>
+
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+
+                                <div class="status-box">
+                                    <h6 class="card-subtitle text-muted">Delivered</h6>
+                                </div>
+                            </div>
+                        {% elif order['order']['status'] == 'Delivered' %}
+                            <div>
+                                <div class="status-box status-complete">
+                                    <h6 class="card-subtitle status-complete-text" style="text-align:center;">Processed</h6>
+                                </div>
+
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+
+                                <div class="status-box status-complete">
+                                    <h6 class="card-subtitle status-complete-text" style="text-align:center;">Dispatched</h6>
+                                </div>
+
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+
+                                <div class="status-box status-complete">
+                                    <h6 class="card-subtitle status-complete-text" style="text-align:center;">In Transit</h6>
+                                </div>
+
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+                                <div class="status-arrow"></div>
+
+                                <div class="status-box status-complete">
+                                    <h6 class="card-subtitle status-complete-text">Delivered</h6>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div>
+                                <h6 class="card-subtitle text-muted">Error retrieving tracking information.</h6>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <hr class="rounded"/>
+
+                    <div class="card-footer">
+                        <h6 class="card-subtitle text-muted">Shipping Address:</h6>
+                        {{ order['address']['address1']}}
+                        {% if order['address']['address2'] != '' %}
+                            <br/>
+                            {{ order['address']['address2']}}
+                        {% endif %}
                         <br/>
-                        {{ order['address']['address2']}}
-                    {% endif %}
-                    <br/>
-                    {{ order['address']['postcode']}}, {{ order['address']['country']}}
-                    <br/>
-                    {% if order['address']['mobile'] != '' %}
-                        Mobile: {{ order['address']['mobile']}}
-                    {% endif %}
+                        {{ order['address']['postcode']}}, {{ order['address']['country']}}
+                        <br/>
+                        {% if order['address']['mobile'] != '' %}
+                            Mobile: {{ order['address']['mobile']}}
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
 
     {% else %}
         <h4 class="display-4">To access your account, please log in.</h4>

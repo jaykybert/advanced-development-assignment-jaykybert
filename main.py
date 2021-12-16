@@ -69,7 +69,7 @@ def account():
     :return: The account page
     """
 
-    user_orders = None
+    user_orders = []
 
     if 'user' in session:
         # Order just made. Update order collection.
