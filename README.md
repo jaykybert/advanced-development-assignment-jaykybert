@@ -2,7 +2,7 @@
 ## advanced-development-assignment-jaykybert
 ###### advanced-development-assignment-jaykybert created by GitHub Classroom
 ###### Jay Kybert - s5107294
-***
+---
 
 * Documentation and style follow the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)
 * Commit messages follow the [Conventional Commits Specification](https://www.conventionalcommits.org/en/v1.0.0/)
